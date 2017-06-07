@@ -9,7 +9,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Scanner;
-
+/**
+ * Writes a HashMap from a shortened PPDB list
+ * @author ToddSandberg
+ *
+ */
 public class Writer {
     static HashMap<String, Paraphrase> store = new HashMap<String, Paraphrase>();
 
@@ -18,7 +22,7 @@ public class Writer {
             ObjectInputStream in;
             try {
                 in = new ObjectInputStream(
-                        new FileInputStream("paraphraseHash.txt"));
+                        new FileInputStream("paraphraseHash.ser"));
                 store = (HashMap<String, Paraphrase>) in.readObject();
                 in.close();
             }
