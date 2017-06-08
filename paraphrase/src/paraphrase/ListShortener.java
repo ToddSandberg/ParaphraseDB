@@ -9,7 +9,7 @@ public class ListShortener {
     public static void main(String [] args){
         try {
             Scanner scan = new Scanner(new File("ppdb-2.0-s-syntax.txt"));
-            PrintWriter print = new PrintWriter("shortenedList.txt");
+            PrintWriter print = new PrintWriter(new File("shortenedList.txt"));
             boolean write = true;
             while(scan.hasNext()){
                 String s = scan.next();
@@ -22,8 +22,8 @@ public class ListShortener {
                     write = true;
                 }
                 if(write){
-                    print.print(s);
-                    System.out.print(s);
+                    print.print(s+" ");
+                    System.out.print(s+" ");
                 }
             }
             scan.close();

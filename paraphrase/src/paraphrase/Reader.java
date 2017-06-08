@@ -33,29 +33,21 @@ public class Reader {
     /**
      * Looks up Term1 in the PPDB
      * 
-     * @param Term1
+     * @param s = Term1 , partofspeech
      * @return String containing Term1, Term2, PPDB2.0Score,
      *         Term1SyntacticalUsage
      */
     public String termToString(String s) {
         s=s.toLowerCase();
-        /* Deletes spaces in a phrase */
-        if (s.contains(" ")) {
-            String[] split = s.split(" ");
-            s = "";
-            for (int i = 0; i < split.length; i++) {
-                s += split[i];
-            }
-        }
         /*Check if PPDB contains Term1*/
         if (store.containsKey(s)) {
             ArrayList<Paraphrase> temp = store.get(s);
-            String thing = "Term1=" + s + "(";
+            String thing = "Term1=" + s + "(" + "\n";
             for(int x=0;x<temp.size();x++){
                 Paraphrase p = temp.get(x);
                 thing += "-Term2=" + p.term2 + " PPDB2.0Score="
                     + p.ppdb2score + " Term1SyntacticalUsage="
-                    + p.Term1SyntacticUsage;
+                    + p.Term1SyntacticUsage + "\n";
             }
             return thing + ")";
         }

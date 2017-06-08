@@ -24,6 +24,7 @@ public class Writer {
         try {
             ObjectInputStream in;
             try {
+                /* import paraphraseHash into store */
                 in = new ObjectInputStream(
                         new FileInputStream("paraphraseHash.ser"));
                 store = (HashMap<String, ArrayList<Paraphrase>>) in
@@ -33,61 +34,68 @@ public class Writer {
             catch (Exception e) {
                 e.printStackTrace();
             }
-
+            /* Scan shortened list */
             Scanner scan = new Scanner(new File("shortenedList.txt"));
-            int linenum = 0;
+            long linenum = 0;
             while (scan.hasNextLine()) {
                 String p = scan.nextLine();
                 linenum++;
                 System.out.print(linenum);
-                if(!p.endsWith("PD")){
-                String[] split = p.split("");
+                
+                if (!p.endsWith("P")) {
+                    String[] split = p.split("");
 
-                int i = 0;
-                while (!split[i].equals("|")) {
+                    int i = 0;
+                    while (!split[i].equals("|")) {
+                        
+                        i++;
+                    }
+                    i += 4;
 
-                    i++;
-                }
-                i += 3;
+                    String term1unsplit = "";
+                    while (!split[i].equals("|")) {
+                        //System.out.print(split[i]);
+                        term1unsplit += split[i];
+                        i++;
+                    }
+                    System.out.print(splitTerms(term1unsplit)[0]);
 
-                String term1unsplit = "";
-                while (!split[i].equals("|")) {
-                    term1unsplit += split[i];
+                    i += 3;
+                    String term2unsplit = "";
+                    while (!split[i].equals("|") && i < split.length) {
+                        term2unsplit += split[i];
+                        i++;
+                    }
+                    System.out.print(splitTerms(term2unsplit)[0]);
+                    i += 3;
+                    while (!split[i].equals("=")) {
+                        i++;
+                    }
                     i++;
+                    String ppdbscore = "";
+                    while (i < split.length) {
+                        ppdbscore += split[i];
+                        i++;
+                    }
+                    System.out.print(ppdbscore);
+                    if (!store.containsKey(splitTerms(term1unsplit)[0])) {
+                        ArrayList<Paraphrase> temp = new ArrayList<Paraphrase>();
+                        temp.add(new Paraphrase(splitTerms(term2unsplit)[0],
+                                ppdbscore, splitTerms(term1unsplit)[1]));
+                        store.put(splitTerms(term1unsplit)[0], temp);
+                    }
+                    else {
+                        store.get(splitTerms(term1unsplit)[0])
+                                .add(new Paraphrase(
+                                        splitTerms(term2unsplit)[0], ppdbscore,
+                                        splitTerms(term1unsplit)[1]));
+                    }
+                    System.out.println("");
                 }
-                System.out.print(term1unsplit);
-
-                i += 3;
-                String term2unsplit = "";
-                while (!split[i].equals("|") && i<split.length) {
-                    term2unsplit += split[i];
-                    i++;
-                }
-                System.out.print(term2unsplit);
-                i += 3;
-                while (!split[i].equals("=")) {
-                    i++;
-                }
-                i++;
-                String ppdbscore = "";
-                while (i < split.length) {
-                    ppdbscore += split[i];
-                    i++;
-                }
-                System.out.print(ppdbscore);
-                if (!store.containsKey(splitTerms(term1unsplit)[0])) {
-                    ArrayList<Paraphrase> temp = new ArrayList<Paraphrase>();
-                    temp.add(new Paraphrase(splitTerms(term2unsplit)[0],
-                            ppdbscore, splitTerms(term1unsplit)[1]));
-                    store.put(splitTerms(term1unsplit)[0], temp);
-                }
-                else{
-                    store.get(splitTerms(term1unsplit)[0]).add(new Paraphrase(splitTerms(term2unsplit)[0],
-                            ppdbscore, splitTerms(term1unsplit)[1]));
-                }
-                System.out.println("");
+                
             }
-            FileOutputStream fout = new FileOutputStream("paraphraseHash.ser");
+            FileOutputStream fout = new FileOutputStream(
+                    "paraphraseHash.ser");
             ObjectOutputStream out;
             try {
                 out = new ObjectOutputStream(fout);
@@ -99,39 +107,41 @@ public class Writer {
             catch (IOException e) {
                 e.printStackTrace();
             }
-            
-            }
             System.out.println("completed");
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
+
     /**
-     * Splits term from syntax 
-     * @param s syntax
+     * Splits term from syntax
+     * 
+     * @param s
+     *            syntax
      * @return array containing [1]=term [2]=syntax
      */
     public static String[] splitTerms(String s) {
+        
         String[] temp = new String[2];
         String term = "";
         String syntax = "";
-        if (s.startsWith("[") && s.endsWith("]")) {
+        if ((s.startsWith("[")|| s.startsWith(" [")) && (s.endsWith("]") || s.endsWith("] "))) {
             syntax += s.substring(0, s.indexOf(']') + 1);
             s = s.substring(s.indexOf(']') + 1, s.length());
-            term = s.substring(0, s.indexOf('['));
+            term = s.substring(0, s.indexOf('[')-1);
             s = s.substring(s.indexOf('['), s.length());
             syntax += s;
         }
-        else if (s.startsWith("[")) {
+        else if (s.startsWith("[")|| s.startsWith(" [")) {
             syntax += s.substring(0, s.indexOf(']') + 1);
             s = s.substring(s.indexOf(']') + 1, s.length());
             syntax += s.substring(0, s.indexOf(']') + 1);
             s = s.substring(s.indexOf(']') + 1, s.length());
-            term = s;
+            term = s.substring(0,s.length()-1);
         }
-        else if (s.endsWith("]")) {
-            term = s.substring(0, s.indexOf('['));
+        else if (s.endsWith("]") || s.endsWith("] ")) {
+            term = s.substring(0, s.indexOf('[')-1);
             s = s.substring(s.indexOf('['), s.length());
             syntax += s;
         }
