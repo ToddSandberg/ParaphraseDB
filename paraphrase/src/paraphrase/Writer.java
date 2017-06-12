@@ -60,14 +60,14 @@ public class Writer {
                     }
                     System.out.print(splitTerms(term1unsplit)[0]);
 
-                    i += 3;
+                    i += 4;
                     String term2unsplit = "";
                     while (!split[i].equals("|") && i < split.length) {
                         term2unsplit += split[i];
                         i++;
                     }
                     System.out.print(splitTerms(term2unsplit)[0]);
-                    i += 3;
+                    i += 4;
                     while (!split[i].equals("=")) {
                         i++;
                     }
@@ -144,6 +144,12 @@ public class Writer {
             term = s.substring(0, s.indexOf('[')-1);
             s = s.substring(s.indexOf('['), s.length());
             syntax += s;
+        }
+        if(term.startsWith(" ")){
+            term = term.substring(1,term.length());
+        }
+        if(term.endsWith(" ")){
+            term = term.substring(0,term.length()-1);
         }
         temp[0] = term;
         temp[1] = syntax;

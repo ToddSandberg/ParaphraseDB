@@ -8,6 +8,10 @@ import java.io.Serializable;
  */
 public class Paraphrase implements Serializable{
     /**
+     * 
+     */
+    private static final long serialVersionUID = -3404053570019014715L;
+    /**
      * related term for Term1
      */
     public String term2;
