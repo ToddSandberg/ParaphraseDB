@@ -17,7 +17,7 @@ import net.sf.extjwnl.dictionary.Dictionary;
  * info
  * 
  * @author ToddSandberg
- * @version 6/7/2017
+ * @version 6/20/2017
  */
 public class Reader {
     /**
@@ -58,9 +58,8 @@ public class Reader {
      * Looks up Term1 in the PPDB
      * 
      * @param s
-     *            = Term1 , partofspeech
-     * @return String containing Term1, Term2, PPDB2.0Score,
-     *         Term1SyntacticalUsage
+     *            = Term1 , partofspeech = the part of speech
+     * @return String containing all term2's
      */
     public String termToString(String s, String partofspeech) {
         s = s.toLowerCase();
@@ -123,7 +122,7 @@ public class Reader {
                     }
                     temp = "";
                 }
-                if (write && seealsos.charAt(x) != '\n' && seealsos.charAt(x)!='-') {
+                if (write && seealsos.charAt(x) != '\n' && seealsos.charAt(x)!='-' ) {
                     temp += seealsos.charAt(x);
                 }
             }

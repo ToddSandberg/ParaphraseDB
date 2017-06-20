@@ -15,7 +15,7 @@ import java.util.Scanner;
  * Writes a HashMap from a shortened PPDB list
  * 
  * @author ToddSandberg
- *
+ * @version 6/20/2017
  */
 public class Writer {
     //static HashMap<String, ArrayList<Paraphrase>> store = new HashMap<String, ArrayList<Paraphrase>>();
