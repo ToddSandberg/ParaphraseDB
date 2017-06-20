@@ -8,7 +8,8 @@ public class App {
     public static void main(String [] args){
         Reader pp = new Reader();
         //System.out.println(pp.sentenceToString("let's-verb~ go-verb~ over-preposition~ there-noun~"));
-        //System.out.println(pp.termToString("to be","verb"));
+        //System.out.println(pp.termToString("break","noun"));
+        //System.out.println(pp.termToString("break","verb"));
         //System.out.println(pp.termToString("to contribute to"));
         //System.out.println(pp.termToString("how is"));
         //System.out.println(pp.termToString("how's","verb"));

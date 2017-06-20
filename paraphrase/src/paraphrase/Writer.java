@@ -18,8 +18,8 @@ import java.util.Scanner;
  *
  */
 public class Writer {
-    static HashMap<String, ArrayList<Paraphrase>> store = new HashMap<String, ArrayList<Paraphrase>>();
-
+    //static HashMap<String, ArrayList<Paraphrase>> store = new HashMap<String, ArrayList<Paraphrase>>();
+    static HashMap<String, String> store = new HashMap<String, String>();
     public static void main(String[] args) {
         try {
             ObjectInputStream in;
@@ -27,8 +27,8 @@ public class Writer {
                 /* import paraphraseHash into store */
                 in = new ObjectInputStream(
                         new FileInputStream("paraphraseHash.ser"));
-                store = (HashMap<String, ArrayList<Paraphrase>>) in
-                        .readObject();
+                //store = (HashMap<String, ArrayList<Paraphrase>>) in.readObject();
+                store = (HashMap<String, String>) in.readObject();
                 in.close();
             }
             catch (Exception e) {
@@ -79,16 +79,15 @@ public class Writer {
                     }
                     System.out.print(ppdbscore);
                     if (!store.containsKey(splitTerms(term1unsplit)[0])) {
-                        ArrayList<Paraphrase> temp = new ArrayList<Paraphrase>();
+                        /*ArrayList<Paraphrase> temp = new ArrayList<Paraphrase>();
                         temp.add(new Paraphrase(splitTerms(term2unsplit)[0],
-                                ppdbscore, splitTerms(term1unsplit)[1]));
-                        store.put(splitTerms(term1unsplit)[0], temp);
+                                ppdbscore, splitTerms(term1unsplit)[1]));*/
+                        store.put(splitTerms(term1unsplit)[0], splitTerms(term2unsplit)[0] + "$"+splitTerms(term1unsplit)[1]);
                     }
                     else {
-                        store.get(splitTerms(term1unsplit)[0])
-                                .add(new Paraphrase(
-                                        splitTerms(term2unsplit)[0], ppdbscore,
-                                        splitTerms(term1unsplit)[1]));
+                        String s = store.get(splitTerms(term1unsplit)[0])
+                                +("\n"+splitTerms(term2unsplit)[0] + "$"+splitTerms(term1unsplit)[1]);
+                        store.put(splitTerms(term1unsplit)[0],s);
                     }
                     System.out.println("");
                 }
@@ -107,7 +106,7 @@ public class Writer {
             catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("completed");
+            System.out.println("completed" + store.size());
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
