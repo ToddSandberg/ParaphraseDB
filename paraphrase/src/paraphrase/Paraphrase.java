@@ -91,8 +91,11 @@ public class Paraphrase {
                             temp = temp.substring(0, temp.length() - 1);
                         }
                     }
-                    if (!words.contains(temp)) {
-                        words.add(temp);
+                    String [] split = temp.split(", ");
+                    for(int i=0;i<split.length;i++){
+                        if (!words.contains(split[i])&& !temp.equals("")) {
+                            words.add(split[i]);
+                        }
                     }
                     temp = "";
                 }
@@ -122,8 +125,11 @@ public class Paraphrase {
                             temp = temp.substring(0, temp.length() - 1);
                         }
                     }
-                    if (!words.contains(temp)) {
+                    String [] split = temp.split(", ");
+                    for(int i=0;i<split.length;i++){
+                    if (!words.contains(temp) && !temp.equals("")) {
                         words.add(temp);
+                    }
                     }
                     temp = "";
                 }
