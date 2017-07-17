@@ -23,19 +23,18 @@ public class Writer {
     public static void main(String[] args) {
         try {
             ObjectInputStream in;
-            try {
-                /* import paraphraseHash into store */
+            /*try {
                 in = new ObjectInputStream(
-                        new FileInputStream("paraphraseHash.ser"));
+                        new FileInputStream("Inputs/paraphraseHash.ser"));
                 //store = (HashMap<String, ArrayList<Paraphrase>>) in.readObject();
                 store = (HashMap<String, String>) in.readObject();
                 in.close();
             }
             catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
             /* Scan shortened list */
-            Scanner scan = new Scanner(new File("shortenedList.txt"));
+            Scanner scan = new Scanner(new File("Inputs/shortenedList.txt"));
             long linenum = 0;
             while (scan.hasNextLine()) {
                 String p = scan.nextLine();
@@ -82,23 +81,25 @@ public class Writer {
                         /*ArrayList<Paraphrase> temp = new ArrayList<Paraphrase>();
                         temp.add(new Paraphrase(splitTerms(term2unsplit)[0],
                                 ppdbscore, splitTerms(term1unsplit)[1]));*/
-                        store.put(splitTerms(term1unsplit)[0], splitTerms(term2unsplit)[0] + "$"+splitTerms(term1unsplit)[1]);
+                        store.put(splitTerms(term1unsplit)[0], splitTerms(term2unsplit)[0] + "$"+splitTerms(term1unsplit)[1] + "$"+ppdbscore);
                     }
                     else {
                         String s = store.get(splitTerms(term1unsplit)[0])
-                                +("\n"+splitTerms(term2unsplit)[0] + "$"+splitTerms(term1unsplit)[1]);
+                                +("\n"+splitTerms(term2unsplit)[0] + "$"+splitTerms(term1unsplit)[1] + "$" + ppdbscore);
                         store.put(splitTerms(term1unsplit)[0],s);
                     }
                     System.out.println("");
                 }
                 
             }
+            PPDB p = new PPDB();
+            p.ppdbHash = store;
             FileOutputStream fout = new FileOutputStream(
-                    "paraphraseHash.ser");
+                    "Inputs/paraphraseHash.ser");
             ObjectOutputStream out;
             try {
                 out = new ObjectOutputStream(fout);
-                out.writeObject(store);
+                out.writeObject(p);
                 out.flush();
                 out.close();
                 fout.close();

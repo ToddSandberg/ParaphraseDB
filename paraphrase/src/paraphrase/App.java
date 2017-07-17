@@ -6,21 +6,10 @@ package paraphrase;
  */
 public class App {
     public static void main(String [] args){
-        Reader pp = new Reader();
-        //System.out.println(pp.sentenceToString("let's-verb~ go-verb~ over-preposition~ there-noun~"));
-        //System.out.println(pp.termToString("break","noun"));
-        //System.out.println(pp.termToString("break","verb"));
-        //System.out.println(pp.termToString("to contribute to"));
-        //System.out.println(pp.termToString("how is"));
-        //System.out.println(pp.termToString("how's","verb"));
-        System.out.println(pp.termToString("the council to","noun"));
-        //System.out.println(pp.sentenceToString("i-pronoun~ ate-verb~ it-pronoun~"));
-        //System.out.println(pp.termToString("stop"));
-        //System.out.println(pp.termToString("to prevent"));
-        //System.out.println(pp.termToString("all", "noun"));
-        //System.out.println(pp.sentenceToString("tell-verb~ everybody-noun~"));
-        //System.out.println(pp.termToString("everybody"));
-        //System.out.println(pp.termToString("the whole world", "noun"));
-        //System.out.println(pp.termToString("the entire world"));*/
+        Paraphrase pp = new Paraphrase();
+        System.out.println("is: "+Paraphrase.termToString("take", "verb"));
+        System.out.println("arrive: "+Paraphrase.termToString("arrive", "verb"));
+        System.out.println("was: "+Paraphrase.getPPDBScore("was", "verb"));
+        System.out.println("synonyms?: "+Paraphrase.checkSynonyms("arrive", "verb", "come", "verb"));
     }
 }
